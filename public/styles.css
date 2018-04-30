@@ -1,0 +1,110 @@
+html {
+  background-color: black;
+  color: #fff;
+}
+
+.title {
+  text-align: center;
+  font-size: 3em;
+}
+
+.color-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.box {
+  width: 200px;
+  height: 200px;
+  background: blue;
+  border: 2px solid #fff;
+}
+
+.hex-code {
+  text-align: center;
+}
+
+.generate-new-color-section {
+  text-align: center;
+}
+
+.generate-button {
+  margin-top: 15px;
+  width: 350px;
+  height: 40px;
+  border-radius: 15px 15px 15px 15px;
+  font-size: 2em;
+  display: block;
+  margin: 20px auto;
+
+}
+
+.generate-button:hover {
+  background-color: #00BFFF;
+}
+
+.line-across {
+  margin-top: 20px;
+  color: white;
+  width: 80%;
+}
+
+.bottom-section {
+  text-align: center;
+}
+
+.saved-projects {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.project-dropdown {
+  width: 150px;
+  height: 30px;
+  font-size: 1em;
+}
+
+.palette-input {
+  width: 350px;
+  height: 25px;
+  border-radius: 10px;
+  margin: 5px 15px;
+  font-size: .8em;
+  padding-left: 10px;
+}
+
+.save-button {
+  width: 120px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 1em;
+}
+
+.save-button:hover {
+  background-color: #00BFFF;
+}
+
+.new-project {
+  font-size: 2em;
+}
+
+.project-input {
+  width: 300px;
+  height: 25px;
+  border-radius: 10px;
+  margin: 5px 15px;
+  font-size: .8em;
+  padding-left: 10px;
+}
+
+.save-project-button {
+  width: 120px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 1em;
+}
+
+.save-project-button:hover {
+  background-color: #00BFFF;
+}

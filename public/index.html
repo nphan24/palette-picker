@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Palette-Picker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class='title'>Palette-Picker</h1>
+    </header>
+    <section class='color-boxes'>
+      <div class='box-one'>
+        <div class='box'></div>
+        <p class='hex-code one'>#OSNEJS</p>
+      </div>
+      <div class='box-two'>
+        <div class='box'></div>
+        <p class='hex-code two'>#OSNEJS</p>
+      </div>
+      <div class='box-three'>
+        <div class='box'></div>
+        <p class='hex-code three'>#OSNEJS</p>
+      </div>
+      <div class='box-four'>
+        <div class='box'></div>
+      <p class='hex-code four'>#OSNEJS</p>
+      </div>
+      <div class='box-five'>
+        <div class='box'></div>
+        <p class='hex-code five'>#OSNEJS</p>
+      </div>
+    </section>
+    <section class='generate-new-color-section'>
+      <button class='generate-button'>Generate New Palette!</button>
+      <select class='project-dropdown'>
+        <option selected value='base'>Please Select</option>
+        <!-- dynamically create and append project names options here -->
+      </select>
+      <input class='palette-input' type='text' placeholder="Palette Name"/>
+      <button class='save-button'>Save</button>
+    </section>
+    <hr class='line-across'>
+    <section class='bottom-section'>
+      <p class='new-project'>Create a New Project</p>
+      <input class='project-input' type='text' placeholder="New Project Name"/>
+      <button class='save-project-button'>Save Project</button>
+    </section>
+    <section class='saved-projects'>This is where saved projects go</section>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
