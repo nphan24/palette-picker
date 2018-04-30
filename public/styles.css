@@ -14,7 +14,7 @@ html {
   justify-content: center;
 }
 
-.box {
+.box-one, .box-two, .box-three, .box-four, .box-five {
   width: 200px;
   height: 200px;
   background: blue;
