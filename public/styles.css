@@ -108,3 +108,25 @@ html {
 .save-project-button:hover {
   background-color: #00BFFF;
 }
+
+.unlocked {
+  width: 30px;
+  height: 30px;
+  filter: invert(100);
+  margin: 10px;
+}
+
+.unlocked:hover {
+  filter: invert(0);
+}
+
+.locked {
+  width: 30px;
+  height: 30px;
+  filter: invert(100);
+  margin: 10px;
+}
+
+.locked:hover {
+  filter: invert(0);
+}
