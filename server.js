@@ -16,11 +16,19 @@ app.locals.projects = [];
 
 // });
 
+//app.delete('/api/v1/palettes', (request, response) => {
+
+// });
+
 // app.get('/api/v1/projects', (request, response) => {
 
 // });
 
 // app.post('/api/v1/projects', (request, response) => {
+
+// });
+
+// app.delete('/api/v1/projects', (request, response) => {
 
 // });
 

@@ -59,15 +59,16 @@ html {
   text-align: center;
 }
 
-.saved-projects {
-  margin-top: 20px;
-  text-align: center;
-}
-
 .project-dropdown {
   width: 150px;
   height: 30px;
   font-size: 1em;
+}
+
+.project-files {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .palette-input {
@@ -142,4 +143,27 @@ html {
 
 .locked:hover {
   filter: invert(0);
+}
+
+.trash-icon {
+  filter: invert(100);
+  width: 20px;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.palette {
+  text-align: center;
+}
+
+.palette-to-append {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.small-palette {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #fff;
 }
