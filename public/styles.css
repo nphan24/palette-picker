@@ -1,6 +1,7 @@
 html {
   background-color: black;
   color: #fff;
+  font-family: 'IBM Plex Serif', serif;
 }
 
 .title {
@@ -44,6 +45,10 @@ html {
   background-color: #00BFFF;
 }
 
+.generate-button:focus {
+  outline: none;
+}
+
 .line-across {
   margin-top: 20px;
   color: white;
@@ -54,15 +59,16 @@ html {
   text-align: center;
 }
 
-.saved-projects {
-  margin-top: 20px;
-  text-align: center;
-}
-
 .project-dropdown {
   width: 150px;
   height: 30px;
   font-size: 1em;
+}
+
+.project-files {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .palette-input {
@@ -83,6 +89,10 @@ html {
 
 .save-button:hover {
   background-color: #00BFFF;
+}
+
+.save-button:focus {
+  outline: none;
 }
 
 .new-project {
@@ -109,6 +119,10 @@ html {
   background-color: #00BFFF;
 }
 
+.save-project-button:focus {
+  outline: none;
+}
+
 .unlocked {
   width: 30px;
   height: 30px;
@@ -129,4 +143,27 @@ html {
 
 .locked:hover {
   filter: invert(0);
+}
+
+.trash-icon {
+  filter: invert(100);
+  width: 20px;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.palette {
+  text-align: center;
+}
+
+.palette-to-append {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.small-palette {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #fff;
 }
