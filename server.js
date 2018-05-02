@@ -5,15 +5,11 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
-console.log('environment', process.env);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ entended: true }));
 app.use(express.static('public'));
 
 app.locals.titles = 'Palette Picker';
-app.locals.projects = [];
-app.locals.palettes = [];
 
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
@@ -35,21 +31,29 @@ app.get('/api/v1/projects/:id', (request, response) => {
     })
 });
 
-// app.post('/api/v1/projects', (request, response) => {
-//   const id = Date.now();
-//   const project = request.body;
+app.post('/api/v1/projects', (request, response) => {
+  const project = request.body;
 
-//   if (!project) {
-//     return response.status(422).send({error: 'No project property provided'});
-//   } else {
-//     app.locals.projects.push({ id, project });
-//     return response.status(201).json({ id, project })
-//   }
-// });
+  database('projects').insert(project, 'id')
+    .then(project => {
+      response.status(201).json({ id: project[0] })
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    });
+});
 
-// app.delete('/api/v1/projects', (request, response) => {
+app.delete('/api/v1/projects', (request, response) => {
+  const id = request.params.id;
 
-// });
+  database('projects').where('id', id).del()
+   .then(id => {
+     response.status(202).json('success')
+   })
+   .catch(error => {
+     reponse.status(500).json({error})
+   })
+});
 
 app.get('/api/v1/palettes', (request, response) => {
   database('palettes')
@@ -72,21 +76,29 @@ app.get('/api/v1/palettes/:id', (request, response) => {
     })
 });
 
-// app.post('/api/v1/palettes', (request, response) => {
-//   const id = Date.now();
-//   const palette = request.body;
+app.post('/api/v1/palettes', (request, response) => {
+  const palette = request.body;
 
-//   if (!palette) {
-//     return response.status(422).send({error: 'No palette property provided'})
-//   } else {
-//     app.locals.palette.push({ id, palette });
-//     return response.status(201).json({ id, palette });
-//   }
-// });
+  database('palettes').insert(palette, 'id')
+    .then(palette => {
+      response.status(201).json({ id: palette[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+});
 
-// app.delete('/api/v1/palettes', (request, response) => {
+app.delete('/api/v1/palettes', (request, response) => {
+  const id = request.params.id;
 
-// });
+  database('palettes').where('id', id).del()
+    .then(id => {
+      response.status(202).json('success')
+    })
+    .catch(error => {
+      response.status(404).json({ error })
+    })
+});
 
 app.set('port', process.env.PORT || 3000);
 
