@@ -14,7 +14,6 @@ function setRandomColor () {
     if (!color.children('img').hasClass('locked')) { 
     let randomColorHex = generateRandomColor();
 
-    hexArray.push(randomColorHex);
     color.siblings('p').text(randomColorHex);
     color.css('background-color', randomColorHex);
   }})
@@ -27,6 +26,7 @@ function generateRandomColor () {
   for (var i = 0; i < 6; i++) {
     hex += characters[Math.floor(Math.random() * 16)];
   }
+  hexArray.push(hex);
   return hex;
 };
 
@@ -45,15 +45,16 @@ function savePalette (event) {
     <div class='palette'>
       <h3 class='saved-palette-name'>${paletteInput}</h3>
       <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
-      <div class='palette-to-append'></div>
+      <div class='palette-to-append'>
+        <div class='small-palette' style='background-color: ${hexArray[0]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[1]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[2]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[3]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[4]}'></div>
+      </div>
     </div>
   `);
 
-  hexArray.forEach(color => {
-    $('.palette-to-append').append(
-      `<div class='small-palette' style='background-color: ${color}'></div>
-    `);
-  });
   $('.palette-input').val('');
   hexArray = [];
 };
