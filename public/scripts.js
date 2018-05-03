@@ -37,22 +37,52 @@ async function fetchProjects () {
   let response = await fetch('/api/v1/projects');
   let projectsArray = await response.json();
 
-  console.log('projects', projectsArray);
   displayProjects(projectsArray);
   return projectsArray
   } catch (error) {
     console.log('Unable to fetch projects', error)
   }
-}
+};
 
-function displayProjects(array) {
-  array.forEach(project => {
+function displayProjects(projectsArray) {
+  projectsArray.forEach(project => {
     $('.project-dropdown').append(`<option value='${project.name}'>${project.name}</option>`);
     $('.saved-projects').append(`
-      <div class='project-files'>
+      <div class=' post-project project-files${project.id}'>
         <h2 class='saved-projects-title'>${project.name}</h2>
         <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
       </div>`);
+    });
+  fetchPalettes()
+}
+
+async function fetchPalettes() {
+  try {
+    let response = await fetch('/api/v1/palettes');
+    let palettesArray = await response.json();
+
+    displayPalettes(palettesArray);
+    return palettesArray;
+  } catch (error) {
+    console.log('Unable to fetch palettes', error);
+  }
+}; 
+
+function displayPalettes(palettesArray) {
+  palettesArray.forEach(palette => {
+    $(`.project-files${palette.project_id}`).append(`
+      <div class='palette'>
+        <h3 class='saved-palette-name'>${palette.name}</h3>
+        <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
+        <div class='palette-to-append'>
+          <div class='small-palette' style='background-color: ${palette.color1}'></div>
+          <div class='small-palette' style='background-color: ${palette.color2}'></div>
+          <div class='small-palette' style='background-color: ${palette.color3}'></div>
+          <div class='small-palette' style='background-color: ${palette.color4}'></div>
+          <div class='small-palette' style='background-color: ${palette.color5}'></div>
+        </div>
+      </div>
+    `);
   });
 }
 
@@ -86,21 +116,8 @@ async function savePalette (event) {
     headers: { 'Content-Type': 'application/json' }
   });
 
-  $('.saved-projects').append(`
-    <div class='palette'>
-      <h3 class='saved-palette-name'>${paletteInput}</h3>
-      <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
-      <div class='palette-to-append'>
-        <div class='small-palette' style='background-color: ${hexArray[0]}'></div>
-        <div class='small-palette' style='background-color: ${hexArray[1]}'></div>
-        <div class='small-palette' style='background-color: ${hexArray[2]}'></div>
-        <div class='small-palette' style='background-color: ${hexArray[3]}'></div>
-        <div class='small-palette' style='background-color: ${hexArray[4]}'></div>
-      </div>
-    </div>
-  `);
-
   $('.palette-input').val('');
+  location.reload();
 };
 
 function createProject (event) {
@@ -113,16 +130,8 @@ function createProject (event) {
     headers: { 'Content-Type': 'application/json' }
   });
 
-  // $('.project-dropdown').append(`
-  //   <option value='${projectInput}'>${projectInput}</option>
-  //   `);
-  // $('.saved-projects').append(`
-  //   <div class='project-files'>
-  //     <h2 class='saved-projects-title'>${projectInput}</h2>
-  //     <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
-  //   </div>`
-  // );
   $('.project-input').val('');
+  location.reload();
 };
 
 function deletePalette() {
@@ -140,5 +149,4 @@ function deleteProject() {
   const projectToDelete = $(this).parent();
 
   projectToDelete.remove();
-  
 }
