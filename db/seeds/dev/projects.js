@@ -16,21 +16,21 @@ exports.seed = function(knex, Promise) {
           id: 1,
           name: 'spring',
           project_id: projects[0],
-          color1: '#aaaaaa',
-          color2: '#bbbbbb',
-          color3: '#cccccc',
-          color4: '#dddddd',
-          color5: '#eeeeee'
+          color1: '#0000FF',
+          color2: '#FF0000',
+          color3: '#FFA500',
+          color4: '#FFFF00',
+          color5: '#008000'
         },
         {
           id: 2,
           name: 'fall',
           project_id: projects[0],
           color1: '#ffffff',
-          color2: 'gggggg',
-          color3: 'hhhhhh',
-          color4: '#iiiiii',
-          color5: '#jjjjjj'
+          color2: '#000000',
+          color3: '#800080',
+          color4: '#76eec6',
+          color5: '#ff4040'
         }
       ]);
     })

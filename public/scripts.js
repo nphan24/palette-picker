@@ -40,6 +40,21 @@ function toggleLock () {
 function savePalette (event) {
   event.preventDefault();
   let paletteInput = $('.palette-input').val();
+  let projectId = $('')
+
+  fetch('/api/v1/palettes', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: paletteInput,
+      color1: hexArray[0],
+      color2: hexArray[1],
+      color3: hexArray[2],
+      color4: hexArray[3],
+      color5: hexArray[4],
+      project_id: 
+    }),
+    headers: { 'Content-Type': 'application/json' }
+  });
 
   $('.saved-projects').append(`
     <div class='palette'>
@@ -56,12 +71,17 @@ function savePalette (event) {
   `);
 
   $('.palette-input').val('');
-  hexArray = [];
 };
 
 function createProject (event) {
   event.preventDefault();
   let projectInput = $('.project-input').val();
+
+  fetch('/api/v1/projects', {
+    method: 'POST',
+    body: JSON.stringify({ name: projectInput }),
+    headers: { 'Content-Type': 'application/json' }
+  });
 
   $('.project-dropdown').append(`
     <option value='${projectInput}'>${projectInput}</option>
@@ -75,5 +95,12 @@ function createProject (event) {
 };
 
 function deletePalette() {
-  $(this).parent().remove();
+  const paletteToDelete = $(this).parent();
+
+  paletteToDelete.remove();
+  fetch('/api/v1/palettes', {
+    method: 'DELETE',
+    body: JSON.stringify({ id: paletteToDelete }),
+    headers: {'Content-Type': 'application/json'},
+  })
 }

@@ -44,14 +44,14 @@ app.post('/api/v1/projects', (request, response) => {
 });
 
 app.delete('/api/v1/projects', (request, response) => {
-  const id = request.params.id;
+  const id = request.body.id;
 
   database('projects').where('id', id).del()
-   .then(id => {
+   .then(projects => {
      response.status(202).json('success')
    })
    .catch(error => {
-     reponse.status(500).json({error})
+     response.status(500).json({error})
    })
 });
 
@@ -89,15 +89,15 @@ app.post('/api/v1/palettes', (request, response) => {
 });
 
 app.delete('/api/v1/palettes', (request, response) => {
-  const id = request.params.id;
+  const id = request.body.id;
 
   database('palettes').where('id', id).del()
-    .then(id => {
-      response.status(202).json('success')
-    })
-    .catch(error => {
-      response.status(404).json({ error })
-    })
+   .then(palettes => {
+     response.status(202).json('success')
+   })
+   .catch(error => {
+     response.status(500).json({error})
+   })
 });
 
 app.set('port', process.env.PORT || 3000);
