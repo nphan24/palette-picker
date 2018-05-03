@@ -84,7 +84,7 @@ app.post('/api/v1/palettes', (request, response) => {
       response.status(201).json({ id: palette[0] })
     })
     .catch(error => {
-      response.status(500).json({ error })
+      response.status(500).json(error)
     })
 });
 

@@ -152,6 +152,15 @@ html {
   margin-bottom: 20px;
 }
 
+.project-trash {
+  filter: invert(100);
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 25px;
+  left: 5;
+}
+
 .palette {
   text-align: center;
 }
