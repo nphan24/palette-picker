@@ -14,7 +14,6 @@ function setRandomColor () {
     if (!color.children('img').hasClass('locked')) { 
     let randomColorHex = generateRandomColor();
 
-    hexArray.push(randomColorHex);
     color.siblings('p').text(randomColorHex);
     color.css('background-color', randomColorHex);
   }})
@@ -27,6 +26,7 @@ function generateRandomColor () {
   for (var i = 0; i < 6; i++) {
     hex += characters[Math.floor(Math.random() * 16)];
   }
+  hexArray.push(hex);
   return hex;
 };
 
@@ -40,27 +40,48 @@ function toggleLock () {
 function savePalette (event) {
   event.preventDefault();
   let paletteInput = $('.palette-input').val();
+  let projectId = $('')
+
+  fetch('/api/v1/palettes', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: paletteInput,
+      color1: hexArray[0],
+      color2: hexArray[1],
+      color3: hexArray[2],
+      color4: hexArray[3],
+      color5: hexArray[4],
+      project_id: 
+    }),
+    headers: { 'Content-Type': 'application/json' }
+  });
 
   $('.saved-projects').append(`
     <div class='palette'>
       <h3 class='saved-palette-name'>${paletteInput}</h3>
       <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
-      <div class='palette-to-append'></div>
+      <div class='palette-to-append'>
+        <div class='small-palette' style='background-color: ${hexArray[0]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[1]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[2]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[3]}'></div>
+        <div class='small-palette' style='background-color: ${hexArray[4]}'></div>
+      </div>
     </div>
   `);
 
-  hexArray.forEach(color => {
-    $('.palette-to-append').append(
-      `<div class='small-palette' style='background-color: ${color}'></div>
-    `);
-  });
   $('.palette-input').val('');
-  hexArray = [];
 };
 
 function createProject (event) {
   event.preventDefault();
   let projectInput = $('.project-input').val();
+
+  fetch('/api/v1/projects', {
+    method: 'POST',
+    body: JSON.stringify({ name: projectInput }),
+    headers: { 'Content-Type': 'application/json' }
+  });
 
   $('.project-dropdown').append(`
     <option value='${projectInput}'>${projectInput}</option>
@@ -74,5 +95,12 @@ function createProject (event) {
 };
 
 function deletePalette() {
-  $(this).parent().remove();
+  const paletteToDelete = $(this).parent();
+
+  paletteToDelete.remove();
+  fetch('/api/v1/palettes', {
+    method: 'DELETE',
+    body: JSON.stringify({ id: paletteToDelete }),
+    headers: {'Content-Type': 'application/json'},
+  })
 }
