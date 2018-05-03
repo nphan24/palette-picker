@@ -56,8 +56,7 @@ app.delete('/api/v1/projects', (request, response) => {
 });
 
 app.get('/api/v1/palettes', (request, response) => {
-  database('palettes')
-    .select()
+  database('palettes').select()
     .then(palette => {
       response.status(200).json(palette);
     })
@@ -105,3 +104,5 @@ app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {
   console.log('palette-picker is listening on port 3000');
 });
+
+module.exports = app;

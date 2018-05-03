@@ -105,25 +105,29 @@ async function savePalette (event) {
   let projects = await response.json();
 
   project_id = projects.find(project => project.name === projectId).id
+  
   try {
-  fetch('/api/v1/palettes', {
-    method: 'POST',
-    body: JSON.stringify({
-      name: paletteInput,
-      color1: hexArray[0],
-      color2: hexArray[1],
-      color3: hexArray[2],
-      color4: hexArray[3],
-      color5: hexArray[4],
-      project_id: project_id
-    }),
-    headers: { 'Content-Type': 'application/json' }
-  });
+    const response = await fetch('/api/v1/palettes', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: paletteInput,
+        color1: hexArray[0],
+        color2: hexArray[1],
+        color3: hexArray[2],
+        color4: hexArray[3],
+        color5: hexArray[4],
+        project_id: project_id
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const paletteId = await response.json();
+
+    $('.palette-input').val('');
+    location.reload();
+    return paletteId;
   } catch (error) {
     console.log('error posting palettes', error)
   }
-  $('.palette-input').val('');
-  location.reload();
 };
 
 async function createProject (event) {
@@ -131,16 +135,19 @@ async function createProject (event) {
   let projectInput = $('.project-input').val();
 
   try {
-  fetch('/api/v1/projects', {
-    method: 'POST',
-    body: JSON.stringify({ name: projectInput }),
-    headers: { 'Content-Type': 'application/json' }
-  });
+    const response = await fetch('/api/v1/projects', {
+      method: 'POST',
+      body: JSON.stringify({ name: projectInput }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const projectId = await response.json();
+
+    $('.project-input').val('');
+    location.reload();
+    return projectId;
   } catch (error) {
     console.log('error posting project to database', error)
   }
-  $('.project-input').val('');
-  location.reload();
 };
 
 async function deletePalette() {
@@ -152,10 +159,10 @@ async function deletePalette() {
     body: JSON.stringify({ id: paletteToDelete }),
     headers: {'Content-Type': 'application/json'}
   })
+  $(this).parent().remove()
   } catch (error) {
     console.log('error deleting palettes', error);
   }
-  location.reload();
 }
 
 async function deleteProject() {
@@ -167,8 +174,8 @@ async function deleteProject() {
     body: JSON.stringify({ id: projectToDelete }),
     headers: {'Content-Type': 'application/json'}
   })
+  $(this).parent().parent().remove();
   } catch (error) {
     console.log('error deleting projects', error)
   }
-  location.reload();
 }
