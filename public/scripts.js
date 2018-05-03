@@ -48,9 +48,11 @@ function displayProjects(projectsArray) {
   projectsArray.forEach(project => {
     $('.project-dropdown').append(`<option value='${project.name}'>${project.name}</option>`);
     $('.saved-projects').append(`
-      <div class=' post-project project-files${project.id}'>
-        <h2 class='saved-projects-title'>${project.name}</h2>
-        <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
+      <div class='${project.id}'>
+        <div class=' post-project project-files${project.id}'>
+          <h2 class='saved-projects-title'>${project.name}</h2>
+          <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
+        </div>
       </div>`);
     });
   fetchPalettes()
@@ -72,14 +74,16 @@ function displayPalettes(palettesArray) {
   palettesArray.forEach(palette => {
     $(`.project-files${palette.project_id}`).append(`
       <div class='palette'>
-        <h3 class='saved-palette-name'>${palette.name}</h3>
-        <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
-        <div class='palette-to-append'>
-          <div class='small-palette' style='background-color: ${palette.color1}'></div>
-          <div class='small-palette' style='background-color: ${palette.color2}'></div>
-          <div class='small-palette' style='background-color: ${palette.color3}'></div>
-          <div class='small-palette' style='background-color: ${palette.color4}'></div>
-          <div class='small-palette' style='background-color: ${palette.color5}'></div>
+        <div class='${palette.id}'>
+          <h3 class='saved-palette-name'>${palette.name}</h3>
+          <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
+          <div class='palette-to-append'>
+            <div class='small-palette' style='background-color: ${palette.color1}'></div>
+            <div class='small-palette' style='background-color: ${palette.color2}'></div>
+            <div class='small-palette' style='background-color: ${palette.color3}'></div>
+            <div class='small-palette' style='background-color: ${palette.color4}'></div>
+            <div class='small-palette' style='background-color: ${palette.color5}'></div>
+          </div>
         </div>
       </div>
     `);
@@ -101,7 +105,7 @@ async function savePalette (event) {
   let projects = await response.json();
 
   project_id = projects.find(project => project.name === projectId).id
-
+  try {
   fetch('/api/v1/palettes', {
     method: 'POST',
     body: JSON.stringify({
@@ -115,38 +119,56 @@ async function savePalette (event) {
     }),
     headers: { 'Content-Type': 'application/json' }
   });
-
+  } catch (error) {
+    console.log('error posting palettes', error)
+  }
   $('.palette-input').val('');
   location.reload();
 };
 
-function createProject (event) {
+async function createProject (event) {
   event.preventDefault();
   let projectInput = $('.project-input').val();
 
+  try {
   fetch('/api/v1/projects', {
     method: 'POST',
     body: JSON.stringify({ name: projectInput }),
     headers: { 'Content-Type': 'application/json' }
   });
-
+  } catch (error) {
+    console.log('error posting project to database', error)
+  }
   $('.project-input').val('');
   location.reload();
 };
 
-function deletePalette() {
-  const paletteToDelete = $(this).parent();
+async function deletePalette() {
+  const paletteToDelete = $(this).parent('div')[0].className;
 
-  paletteToDelete.remove();
-  fetch('/api/v1/palettes', {
+  try {
+  await fetch('/api/v1/palettes', {
     method: 'DELETE',
     body: JSON.stringify({ id: paletteToDelete }),
-    headers: {'Content-Type': 'application/json'},
+    headers: {'Content-Type': 'application/json'}
   })
+  } catch (error) {
+    console.log('error deleting palettes', error);
+  }
+  location.reload();
 }
 
-function deleteProject() {
-  const projectToDelete = $(this).parent();
+async function deleteProject() {
+  const projectToDelete = $(this).parent().parent('div')[0].className;
 
-  projectToDelete.remove();
+  try {
+   await fetch('/api/v1/projects', {
+    method: 'DELETE',
+    body: JSON.stringify({ id: projectToDelete }),
+    headers: {'Content-Type': 'application/json'}
+  })
+  } catch (error) {
+    console.log('error deleting projects', error)
+  }
+  location.reload();
 }
