@@ -4,6 +4,7 @@ $('.unlocked').on('click', toggleLock);
 $('.save-button').on('click', savePalette);
 $('.save-project-button').on('click', createProject);
 $('.saved-projects').on('click', '.trash-icon', deletePalette);
+$('.saved-projects').on('click', '.project-trash', deleteProject);
 
 let hexArray = [];
 
@@ -37,10 +38,14 @@ function toggleLock () {
   $(this).attr('src', src);
 };
 
-function savePalette (event) {
+async function savePalette (event) {
   event.preventDefault();
   let paletteInput = $('.palette-input').val();
-  let projectId = $('')
+  let projectId = $('select').val();
+  let response = await fetch('/api/v1/projects');
+  let projects = await response.json();
+
+  project_id = projects.find(project => project.name === projectId).id
 
   fetch('/api/v1/palettes', {
     method: 'POST',
@@ -51,7 +56,7 @@ function savePalette (event) {
       color3: hexArray[2],
       color4: hexArray[3],
       color5: hexArray[4],
-      project_id: 
+      project_id: project_id
     }),
     headers: { 'Content-Type': 'application/json' }
   });
@@ -85,10 +90,11 @@ function createProject (event) {
 
   $('.project-dropdown').append(`
     <option value='${projectInput}'>${projectInput}</option>
-  `);
-  $('.saved-projects').append(`
+    `);
+    $('.saved-projects').append(`
     <div class='project-files'>
       <h2 class='saved-projects-title'>${projectInput}</h2>
+      <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
     </div>`
   );
   $('.project-input').val('');
@@ -103,4 +109,11 @@ function deletePalette() {
     body: JSON.stringify({ id: paletteToDelete }),
     headers: {'Content-Type': 'application/json'},
   })
+}
+
+function deleteProject() {
+  const projectToDelete = $(this).parent();
+
+  projectToDelete.remove();
+  
 }
