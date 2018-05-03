@@ -1,3 +1,4 @@
+fetchProjects();
 $('document').ready(setRandomColor);
 $('.generate-button').on('click', setRandomColor);
 $('.unlocked').on('click', toggleLock);
@@ -30,6 +31,30 @@ function generateRandomColor () {
   hexArray.push(hex);
   return hex;
 };
+
+async function fetchProjects () {
+  try {
+  let response = await fetch('/api/v1/projects');
+  let projectsArray = await response.json();
+
+  console.log('projects', projectsArray);
+  displayProjects(projectsArray);
+  return projectsArray
+  } catch (error) {
+    console.log('Unable to fetch projects', error)
+  }
+}
+
+function displayProjects(array) {
+  array.forEach(project => {
+    $('.project-dropdown').append(`<option value='${project.name}'>${project.name}</option>`);
+    $('.saved-projects').append(`
+      <div class='project-files'>
+        <h2 class='saved-projects-title'>${project.name}</h2>
+        <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
+      </div>`);
+  });
+}
 
 function toggleLock () {
   $(this).toggleClass('locked');
@@ -88,15 +113,15 @@ function createProject (event) {
     headers: { 'Content-Type': 'application/json' }
   });
 
-  $('.project-dropdown').append(`
-    <option value='${projectInput}'>${projectInput}</option>
-    `);
-    $('.saved-projects').append(`
-    <div class='project-files'>
-      <h2 class='saved-projects-title'>${projectInput}</h2>
-      <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
-    </div>`
-  );
+  // $('.project-dropdown').append(`
+  //   <option value='${projectInput}'>${projectInput}</option>
+  //   `);
+  // $('.saved-projects').append(`
+  //   <div class='project-files'>
+  //     <h2 class='saved-projects-title'>${projectInput}</h2>
+  //     <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
+  //   </div>`
+  // );
   $('.project-input').val('');
 };
 
