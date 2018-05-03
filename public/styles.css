@@ -65,7 +65,7 @@ html {
   font-size: 1em;
 }
 
-.project-files {
+.post-project {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
