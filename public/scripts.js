@@ -105,7 +105,7 @@ async function savePalette (event) {
   let projects = await response.json();
 
   project_id = projects.find(project => project.name === projectId).id
-
+  try {
   fetch('/api/v1/palettes', {
     method: 'POST',
     body: JSON.stringify({
@@ -119,21 +119,26 @@ async function savePalette (event) {
     }),
     headers: { 'Content-Type': 'application/json' }
   });
-
+  } catch (error) {
+    console.log('error posting palettes', error)
+  }
   $('.palette-input').val('');
   location.reload();
 };
 
-function createProject (event) {
+async function createProject (event) {
   event.preventDefault();
   let projectInput = $('.project-input').val();
 
+  try {
   fetch('/api/v1/projects', {
     method: 'POST',
     body: JSON.stringify({ name: projectInput }),
     headers: { 'Content-Type': 'application/json' }
   });
-
+  } catch (error) {
+    console.log('error posting project to database', error)
+  }
   $('.project-input').val('');
   location.reload();
 };
