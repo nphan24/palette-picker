@@ -66,9 +66,7 @@ html {
 }
 
 .post-project {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  text-align: center;
 }
 
 .palette-input {
@@ -145,6 +143,11 @@ html {
   filter: invert(0);
 }
 
+.saved-projects-title {
+  margin-bottom: 0;
+  text-decoration: underline;
+}
+
 .trash-icon {
   filter: invert(100);
   width: 20px;
@@ -157,8 +160,8 @@ html {
   width: 20px;
   height: 20px;
   position: relative;
-  top: 25px;
-  left: 5;
+  bottom: 25px;
+  left: 70px;
 }
 
 .palette {

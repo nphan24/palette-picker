@@ -50,8 +50,8 @@ function displayProjects(projectsArray) {
     $('.saved-projects').append(`
       <div class='${project.id}'>
         <div class=' post-project project-files${project.id}'>
-          <h2 class='saved-projects-title'>${project.name}</h2>
-          <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
+        <h2 class='saved-projects-title'>${project.name}</h2>
+        <img class='project-trash' src='./assets/trash.svg' alt='trash'/>
         </div>
       </div>`);
     });
