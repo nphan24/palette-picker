@@ -146,22 +146,29 @@ html {
 .saved-projects-title {
   margin-bottom: 0;
   text-decoration: underline;
+  font-size: 2em;
+}
+
+.saved-palette-name {
+  margin-bottom: 0;
 }
 
 .trash-icon {
   filter: invert(100);
   width: 20px;
   height: 20px;
-  margin-bottom: 20px;
+  position: relative;
+  bottom: 20px;
+  left: 60px;
 }
 
 .project-trash {
   filter: invert(100);
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   position: relative;
-  bottom: 25px;
-  left: 70px;
+  bottom: 35px;
+  left: 95px;
 }
 
 .palette {
