@@ -6,6 +6,7 @@ $('.save-button').on('click', savePalette);
 $('.save-project-button').on('click', createProject);
 $('.saved-projects').on('click', '.trash-icon', deletePalette);
 $('.saved-projects').on('click', '.project-trash', deleteProject);
+$('.saved-projects').on('click', '.palette-to-append', renderBigPalette);
 
 let hexArray = [];
 
@@ -77,7 +78,7 @@ function displayPalettes(palettesArray) {
         <div class='${palette.id}'>
           <h3 class='saved-palette-name'>${palette.name}</h3>
           <img src='./assets/trash.svg' alt='trash' class='trash-icon'/>
-          <div class='palette-to-append'>
+          <div class='palette-to-append' >
             <div class='small-palette' style='background-color: ${palette.color1}'></div>
             <div class='small-palette' style='background-color: ${palette.color2}'></div>
             <div class='small-palette' style='background-color: ${palette.color3}'></div>
@@ -104,7 +105,7 @@ async function savePalette (event) {
   let response = await fetch('/api/v1/projects');
   let projects = await response.json();
 
-  project_id = projects.find(project => project.name === projectId).id
+  let project_id = projects.find(project => project.name === projectId).id
   
   try {
     const response = await fetch('/api/v1/palettes', {
@@ -133,21 +134,50 @@ async function savePalette (event) {
 async function createProject (event) {
   event.preventDefault();
   let projectInput = $('.project-input').val();
+  let response = await fetch('/api/v1/projects');
+  let projectsArray = await response.json();
+
+  if (projectsArray.find(project => project.name === projectInput)) {
+    alert('This project name already exists');
+  } else {
+    try {
+      const response = await fetch('/api/v1/projects', {
+        method: 'POST',
+        body: JSON.stringify({ name: projectInput }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const projectId = await response.json();
+      
+      $('.project-input').val('');
+      location.reload();
+      return projectId;
+    } catch (error) {
+      console.log('error posting project to database', error)
+    };
+  };
+};
+
+async function renderBigPalette() {
+  let paletteId = $(this).parent('div')[0].className;
 
   try {
-    const response = await fetch('/api/v1/projects', {
-      method: 'POST',
-      body: JSON.stringify({ name: projectInput }),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    const projectId = await response.json();
+    let response = await fetch(`/api/v1/palettes/${paletteId}`);
+    let palette = await response.json();
 
-    $('.project-input').val('');
-    location.reload();
-    return projectId;
+    $('.box-one').siblings('p').text(palette.color1);
+    $('.box-one').css('background-color', palette.color1);
+    $('.box-two').siblings('p').text(palette.color2);
+    $('.box-two').css('background-color', palette.color2);
+    $('.box-three').siblings('p').text(palette.color3);
+    $('.box-three').css('background-color', palette.color3);
+    $('.box-four').siblings('p').text(palette.color4);
+    $('.box-four').css('background-color', palette.color4);
+    $('.box-five').siblings('p').text(palette.color5);
+    $('.box-five').css('background-color', palette.color5);
+    return palette
   } catch (error) {
-    console.log('error posting project to database', error)
-  }
+    console.log(error)
+  };
 };
 
 async function deletePalette() {
