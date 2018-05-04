@@ -34,13 +34,17 @@ app.get('/api/v1/projects/:id', (request, response) => {
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
 
-  database('projects').insert(project, 'id')
-    .then(project => {
-      response.status(201).json({ id: project[0] })
-    })
-    .catch(error => {
-      response.status(500).json({error})
-    });
+  if (!project.name) {
+    return response.status(406).send({ error: 'Missing Data'})
+  } else {
+    database('projects').insert(project, 'id')
+      .then(project => {
+        response.status(201).json({ id: project[0] })
+      })
+      .catch(error => {
+        response.status(500).json({error})
+      });
+    };
 });
 
 app.delete('/api/v1/projects', (request, response) => {
@@ -78,13 +82,17 @@ app.get('/api/v1/palettes/:id', (request, response) => {
 app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
 
-  database('palettes').insert(palette, 'id')
-    .then(palette => {
-      response.status(201).json({ id: palette[0] })
-    })
-    .catch(error => {
-      response.status(500).json(error)
-    })
+  if (!palette.name) {
+    return response.status(406).send({ error: 'Missing Data'})
+  } else {
+    database('palettes').insert(palette, 'id')
+      .then(palette => {
+        response.status(201).json({ id: palette[0] })
+      })
+      .catch(error => {
+        response.status(500).json(error)
+    });
+  }; 
 });
 
 app.delete('/api/v1/palettes', (request, response) => {
