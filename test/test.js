@@ -102,7 +102,20 @@ describe('Testing endpoints', () => {
         response.body.should.be.an('object');
     done();
     });
-  });  
+  });
+
+  it('should not POST to projects if no name passed', (done) => {
+    chai.request(app)
+      .post('/api/v1/projects')
+      .send({something: 'not a name'})
+      .end((error, response) => {
+        response.should.be.json;
+        response.should.have.status(406);
+        response.body.should.be.an('object');
+        response.body.error.should.equal('Missing Data');
+      });
+    done();
+  });
   
   it('POST palettes to the database', (done) => {
     chai.request(app)
@@ -122,6 +135,19 @@ describe('Testing endpoints', () => {
         response.body.should.be.an('object');
     done();
     });
+  });
+
+  it('should not POST to palettes if no name passed', (done) => {
+    chai.request(app)
+      .post('/api/v1/palettes')
+      .send({ something: 'not a name' })
+      .end((error, response) => {
+        response.should.be.json;
+        response.should.have.status(406);
+        response.body.should.be.an('object');
+        response.body.error.should.equal('Missing Data');
+      });
+    done();
   });
 
   it('DELETE projects from the database', (done) => {
