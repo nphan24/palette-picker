@@ -1,7 +1,7 @@
 const chai = require('chai');
 const should = chai.should();
 const app = require('../server.js');
-const environment = 'test';
+const environment = process.env.NODE_ENV || 'development';
 const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
 const chaiHttp = require('chai-http');
@@ -86,16 +86,15 @@ describe('Testing endpoints', () => {
     chai.request(app)
       .post('/api/v1/palettes')
       .send({
-        'name': 'im over this',
-        'color1': "#ffffff",
-        'color2': "#ffffff",
-        'color3': "#ffffff",
-        'color4': "#ffffff",
-        'color5': "#ffffff",
-        'project_id': 1
+        name: 'im over this',
+        color1: "#ffffff",
+        color2: "#ffffff",
+        color3: "#ffffff",
+        color4: "#ffffff",
+        color5: "#ffffff",
+        project_id: 1
       })
       .end((error, response) => {
-        console.log(response)
         response.should.be.json;
         // response.should.have.status(201);
         response.body.should.be.an('object');
@@ -103,21 +102,25 @@ describe('Testing endpoints', () => {
     });
   });
 
-  // it('DELETE projects from the database', (done) => {
-  //   chai.request(app)
-  //     .delete('/api/v1/projects')
-  //     .end((error, response) => {
-
-  //   done();
-  //   });
-  // });  
+  it('DELETE projects from the database', (done) => {
+    chai.request(app)
+      .delete('/api/v1/projects')
+      .send({ id: 3 })
+      .end((error, response) => {
+      response.should.be.json;
+      response.body.should.be.a('string');
+    done();
+    });
+  });  
   
-  // it('DELETE palettes from the database', (done) => {
-  //   chai.request(app)
-  //     .delete('/api/v1/palettes')
-  //     .end((error, response) => {
-
-  //   done();
-  //   });
-  // });
+  it('DELETE palettes from the database', (done) => {
+    chai.request(app)
+      .delete('/api/v1/palettes')
+      .send({ id: 2 })
+      .end((error, response) => {
+        response.should.json;
+        response.body.should.be.a('string');
+    done();
+    });
+  });
 }); 
