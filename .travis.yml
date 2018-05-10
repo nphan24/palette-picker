@@ -3,3 +3,4 @@ node_js: "9"
 services: postgresql
 before_script:
   - psql -c 'create database palette_picker_test;' -U postgres
+  
