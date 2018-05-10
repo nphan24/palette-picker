@@ -1,4 +1,4 @@
 language: node_js
 node_js: "9"
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  - psql -c 'create database palette_picker_test;' -U postgres
